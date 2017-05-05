@@ -32,7 +32,7 @@ public class HelloAkkaJava {
             }
 
             else if (message instanceof Greet){
-                // Send the current greeting back to the sender
+                // Send the current queAccionVoyARealizar back to the sender
                 System.out.println("Soy amable, devuelvo el pedido de saludo");
                 getSender().tell(new Greeting(greeting), getSelf());
             }
@@ -56,33 +56,33 @@ public class HelloAkkaJava {
             final Inbox inbox = Inbox.create(system);
 
 
-            // Tell the 'greeter' to change its 'greeting' message
+            // Tell the 'greeter' to change its 'queAccionVoyARealizar' nombre
             System.out.println("Le digo a los actores que es lo que deberian hacer..");
             actorSaludadorCarlos.tell(new WhoToGreet("Emilio"), ActorRef.noSender());
             actorSaludadorEmilio.tell(new WhoToGreet("Carlos"), ActorRef.noSender());
 
-            // Ask the 'greeter for the latest 'greeting'
+            // Ask the 'greeter for the latest 'queAccionVoyARealizar'
             // Reply should go to the "actor-in-a-box"
             System.out.println("Le digo al inbox que produzca el envio de mensaje");
             inbox.send(actorSaludadorCarlos, new Greet());
             inbox.send(actorSaludadorEmilio, new Greet());
 
-            // Wait 5 seconds for the reply with the 'greeting' message
+            // Wait 5 seconds for the reply with the 'queAccionVoyARealizar' nombre
             System.out.println("Le digo al inbox que me devuelva el resultado de las presentaciones.");
             final Greeting mensajeSaludaCarlosAEmilio = (Greeting) inbox.receive(Duration.create(5, TimeUnit.SECONDS));
             System.out.println("mensajeSaludaCarlosAEmilio: " + mensajeSaludaCarlosAEmilio.message);
             final Greeting mensajeSaludaEmilioACarlos = (Greeting) inbox.receive(Duration.create(5, TimeUnit.SECONDS));
             System.out.println("mensajeSaludaEmilioACarlos: " + mensajeSaludaEmilioACarlos.message);
             System.out.println("-----------fin---------------");
-            // Change the greeting and ask for it again
+            // Change the queAccionVoyARealizar and ask for it again
             actorSaludadorCarlos.tell(new WhoToGreet("carlos esta saludando"), ActorRef.noSender());
             inbox.send(actorSaludadorCarlos, new Greet());
             final Greeting greeting2 = (Greeting) inbox.receive(Duration.create(5, TimeUnit.SECONDS));
-            System.out.println("Greeting: " + greeting2.message);
+            System.out.println("PlatoCocinado: " + greeting2.message);
 
-            // after zero seconds, send a Greet message every second to the greeter with a sender of the GreetPrinter
+            // after zero seconds, send a Comanda nombre every second to the greeter with a sender of the GreetPrinter
 //            final ActorRef greetPrinter = system.actorOf(Props.create(GreetPrinter.class));
-//            system.scheduler().schedule(Duration.Zero(), Duration.create(1, TimeUnit.SECONDS), actorSaludadorCarlos, new Greet(), system.dispatcher(), greetPrinter);
+//            system.scheduler().schedule(Duration.Zero(), Duration.create(1, TimeUnit.SECONDS), actorSaludadorCarlos, new Comanda(), system.dispatcher(), greetPrinter);
         } catch (TimeoutException ex) {
             System.out.println("Got a timeout waiting for reply from an actor");
             ex.printStackTrace();
